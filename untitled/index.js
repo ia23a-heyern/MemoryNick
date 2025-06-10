@@ -164,6 +164,158 @@ function endGame() {
     document.getElementById('finalTime').textContent = finalTime;
     document.getElementById('finalMoves').textContent = moves;
     document.getElementById('gameOver').classList.add('show');
+
+    // Starte Gewinn-Animationen
+    startVictoryAnimations();
+}
+
+/**
+ * Startet alle Gewinn-Animationen
+ */
+function startVictoryAnimations() {
+    // Zeige "GEWONNEN!" Text
+    showVictoryText();
+
+    // Starte Konfetti
+    createConfetti();
+
+    // Starte Feuerwerk
+    createFireworks();
+
+    // Erstelle Sterne
+    createStars();
+
+    // Regenbogen-Hintergrund
+    document.body.classList.add('rainbow-bg');
+    setTimeout(() => {
+        document.body.classList.remove('rainbow-bg');
+    }, 3000);
+
+    // Stats pulsieren lassen
+    document.querySelector('.stats').classList.add('stats-pulse');
+    setTimeout(() => {
+        document.querySelector('.stats').classList.remove('stats-pulse');
+    }, 1500);
+
+    // Glitzer-Effekt
+    createSparkles();
+}
+
+/**
+ * Zeigt den animierten Gewinn-Text
+ */
+function showVictoryText() {
+    const victoryText = document.createElement('div');
+    victoryText.className = 'victory-text';
+    victoryText.textContent = 'GEWONNEN!';
+    document.body.appendChild(victoryText);
+
+    setTimeout(() => {
+        victoryText.remove();
+    }, 2500);
+}
+
+/**
+ * Erstellt Konfetti-Animationen
+ */
+function createConfetti() {
+    const confettiContainer = document.createElement('div');
+    confettiContainer.className = 'confetti-container';
+    document.body.appendChild(confettiContainer);
+
+    const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#ffd93d', '#6bcf7f', '#e84393', '#ffd700'];
+
+    for (let i = 0; i < 100; i++) {
+        setTimeout(() => {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.width = Math.random() * 10 + 5 + 'px';
+            confetti.style.height = confetti.style.width;
+            confetti.style.animationDelay = Math.random() * 0.5 + 's';
+            confetti.style.animationDuration = Math.random() * 2 + 2 + 's';
+            confettiContainer.appendChild(confetti);
+        }, i * 30);
+    }
+
+    setTimeout(() => {
+        confettiContainer.remove();
+    }, 5000);
+}
+
+/**
+ * Erstellt Feuerwerk-Animationen
+ */
+function createFireworks() {
+    const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#ffd93d', '#6bcf7f'];
+
+    for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight * 0.5;
+
+            // Rakete
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.left = x + 'px';
+            firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+            document.body.appendChild(firework);
+
+            // Explosion
+            setTimeout(() => {
+                firework.remove();
+
+                for (let j = 0; j < 20; j++) {
+                    const explosion = document.createElement('div');
+                    explosion.className = 'firework-explosion';
+                    explosion.style.left = x + 'px';
+                    explosion.style.top = y + 'px';
+                    explosion.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    document.body.appendChild(explosion);
+
+                    setTimeout(() => explosion.remove(), 1000);
+                }
+            }, 1000);
+        }, i * 400);
+    }
+}
+
+/**
+ * Erstellt animierte Sterne
+ */
+function createStars() {
+    for (let i = 0; i < 30; i++) {
+        setTimeout(() => {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.innerHTML = '⭐';
+            star.style.left = Math.random() * window.innerWidth + 'px';
+            star.style.top = Math.random() * window.innerHeight + 'px';
+            star.style.fontSize = Math.random() * 20 + 20 + 'px';
+            document.body.appendChild(star);
+
+            setTimeout(() => star.remove(), 2000);
+        }, i * 100);
+    }
+}
+
+/**
+ * Erstellt Glitzer-Effekte
+ */
+function createSparkles() {
+    for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * window.innerWidth + 'px';
+            sparkle.style.top = Math.random() * window.innerHeight + 'px';
+            sparkle.style.boxShadow = '0 0 6px #fff';
+            document.body.appendChild(sparkle);
+
+            setTimeout(() => sparkle.remove(), 1000);
+        }, i * 50);
+    }
 }
 
 /**
